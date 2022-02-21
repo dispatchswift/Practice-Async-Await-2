@@ -107,14 +107,14 @@
 				9C972CD226C116F600E48FAC /* SuperStorageApp.swift */,
 				9C72072926CA7B6900726D6D /* Views */,
 				9C1AFC5926C285DA0009636E /* Assets */,
-				9C972CE226C1179100E48FAC /* Model */,
+				9C972CE226C1179100E48FAC /* Models */,
 				9C972CD426C116F600E48FAC /* ListView.swift */,
 				9C972CE526C1204F00E48FAC /* DownloadView.swift */,
 			);
 			path = SuperStorage;
 			sourceTree = "<group>";
 		};
-		9C972CE226C1179100E48FAC /* Model */ = {
+		9C972CE226C1179100E48FAC /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				9CB1ACF326CBE09600EC8427 /* ByteAccumulator.swift */,
@@ -122,7 +122,7 @@
 				9C972CE326C1179A00E48FAC /* DataModels.swift */,
 				9CFDA58626C9810600F6490D /* Utility.swift */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

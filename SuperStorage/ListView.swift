@@ -99,7 +99,12 @@ struct ListView: View {
 				
 				// catch and store any errors in lastErrorMesage. The app will then display the error message in an alert box.
 				do {
-					files = try await model.availableFiles()
+					async let files = try model.availableFiles()
+					async let status = try model.status()
+					
+					let (filesResult, statusResult) = try await (files, status)
+					self.files = filesResult
+					self.status = statusResult
 				} catch {
 					lastErrorMessage = error.localizedDescription
 				}

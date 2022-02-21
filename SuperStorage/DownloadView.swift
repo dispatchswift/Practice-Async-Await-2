@@ -51,6 +51,9 @@ struct DownloadView: View {
         isDownloadActive: $isDownloadActive,
         downloadSingleAction: {
           // Download a file in a single go.
+					Task {
+						fileData = try await model.download(file: file)
+					}
         },
         downloadWithUpdatesAction: {
           // Download a file with UI progress updates.
@@ -59,10 +62,12 @@ struct DownloadView: View {
           // Download a file in multiple concurrent parts.
         }
       )
+			
       if !model.downloads.isEmpty {
         // Show progress for any ongoing downloads.
         Downloads(downloads: model.downloads)
       }
+			
       if let fileData = fileData {
         // Show a preview of the file if it's a valid image.
         FilePreview(fileData: fileData)
