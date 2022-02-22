@@ -17,10 +17,11 @@
 		9C972CD526C116F600E48FAC /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C972CD426C116F600E48FAC /* ListView.swift */; };
 		9C972CD726C116F900E48FAC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C972CD626C116F900E48FAC /* Assets.xcassets */; };
 		9C972CE126C1172300E48FAC /* SuperStorageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C972CE026C1172300E48FAC /* SuperStorageModel.swift */; };
-		9C972CE426C1179A00E48FAC /* DataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C972CE326C1179A00E48FAC /* DataModels.swift */; };
 		9C972CE626C1205000E48FAC /* DownloadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C972CE526C1204F00E48FAC /* DownloadView.swift */; };
 		9CB1ACF426CBE09600EC8427 /* ByteAccumulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB1ACF326CBE09600EC8427 /* ByteAccumulator.swift */; };
 		9CFDA58726C9810600F6490D /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFDA58626C9810600F6490D /* Utility.swift */; };
+		C839CF4A27C487E100942CEA /* DownloadFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C839CF4927C487E100942CEA /* DownloadFile.swift */; };
+		C839CF4C27C4881300942CEA /* DownloadInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C839CF4B27C4881300942CEA /* DownloadInfo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,10 +37,11 @@
 		9C972CD426C116F600E48FAC /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		9C972CD626C116F900E48FAC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9C972CE026C1172300E48FAC /* SuperStorageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperStorageModel.swift; sourceTree = "<group>"; };
-		9C972CE326C1179A00E48FAC /* DataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModels.swift; sourceTree = "<group>"; };
 		9C972CE526C1204F00E48FAC /* DownloadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadView.swift; sourceTree = "<group>"; };
 		9CB1ACF326CBE09600EC8427 /* ByteAccumulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByteAccumulator.swift; sourceTree = "<group>"; };
 		9CFDA58626C9810600F6490D /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
+		C839CF4927C487E100942CEA /* DownloadFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadFile.swift; sourceTree = "<group>"; };
+		C839CF4B27C4881300942CEA /* DownloadInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadInfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,15 +55,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		9C1AFC5926C285DA0009636E /* Assets */ = {
+		9C1AFC5926C285DA0009636E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
 				9C1AFC5F26C287600009636E /* Info.plist */,
-				9C1AFC5C26C2874C0009636E /* Fonts */,
-				9C972CD626C116F900E48FAC /* Assets.xcassets */,
 				9C1AFC5A26C285EF0009636E /* StartUp.storyboard */,
+				9C972CD626C116F900E48FAC /* Assets.xcassets */,
+				9C1AFC5C26C2874C0009636E /* Fonts */,
 			);
-			path = Assets;
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		9C1AFC5C26C2874C0009636E /* Fonts */ = {
@@ -75,6 +77,8 @@
 		9C72072926CA7B6900726D6D /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9C972CD426C116F600E48FAC /* ListView.swift */,
+				9C972CE526C1204F00E48FAC /* DownloadView.swift */,
 				9C72072A26CA7B8100726D6D /* FilePreview.swift */,
 				9C72072C26CA7BE200726D6D /* Downloads.swift */,
 				9C72072E26CA7C6100726D6D /* FileDetails.swift */,
@@ -104,12 +108,13 @@
 		9C972CD126C116F600E48FAC /* SuperStorage */ = {
 			isa = PBXGroup;
 			children = (
+				9CB1ACF326CBE09600EC8427 /* ByteAccumulator.swift */,
 				9C972CD226C116F600E48FAC /* SuperStorageApp.swift */,
-				9C72072926CA7B6900726D6D /* Views */,
-				9C1AFC5926C285DA0009636E /* Assets */,
+				9CFDA58626C9810600F6490D /* Utility.swift */,
 				9C972CE226C1179100E48FAC /* Models */,
-				9C972CD426C116F600E48FAC /* ListView.swift */,
-				9C972CE526C1204F00E48FAC /* DownloadView.swift */,
+				9C1AFC5926C285DA0009636E /* Supporting Files */,
+				C839CF4827C487BA00942CEA /* View Models */,
+				9C72072926CA7B6900726D6D /* Views */,
 			);
 			path = SuperStorage;
 			sourceTree = "<group>";
@@ -117,12 +122,18 @@
 		9C972CE226C1179100E48FAC /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				9CB1ACF326CBE09600EC8427 /* ByteAccumulator.swift */,
-				9C972CE026C1172300E48FAC /* SuperStorageModel.swift */,
-				9C972CE326C1179A00E48FAC /* DataModels.swift */,
-				9CFDA58626C9810600F6490D /* Utility.swift */,
+				C839CF4B27C4881300942CEA /* DownloadInfo.swift */,
+				C839CF4927C487E100942CEA /* DownloadFile.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		C839CF4827C487BA00942CEA /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				9C972CE026C1172300E48FAC /* SuperStorageModel.swift */,
+			);
+			path = "View Models";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -199,12 +210,13 @@
 				9C72073126CA7E6100726D6D /* FileListItem.swift in Sources */,
 				9C972CD526C116F600E48FAC /* ListView.swift in Sources */,
 				9C72072F26CA7C6100726D6D /* FileDetails.swift in Sources */,
-				9C972CE426C1179A00E48FAC /* DataModels.swift in Sources */,
 				9C72072B26CA7B8100726D6D /* FilePreview.swift in Sources */,
 				9CFDA58726C9810600F6490D /* Utility.swift in Sources */,
+				C839CF4C27C4881300942CEA /* DownloadInfo.swift in Sources */,
 				9CB1ACF426CBE09600EC8427 /* ByteAccumulator.swift in Sources */,
 				9C972CE126C1172300E48FAC /* SuperStorageModel.swift in Sources */,
 				9C972CD326C116F600E48FAC /* SuperStorageApp.swift in Sources */,
+				C839CF4A27C487E100942CEA /* DownloadFile.swift in Sources */,
 				9C72072D26CA7BE200726D6D /* Downloads.swift in Sources */,
 				9C972CE626C1205000E48FAC /* DownloadView.swift in Sources */,
 			);
@@ -339,7 +351,7 @@
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = SuperStorage/Assets/Info.plist;
+				INFOPLIST_FILE = "SuperStorage/Supporting Files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -371,7 +383,7 @@
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = SuperStorage/Assets/Info.plist;
+				INFOPLIST_FILE = "SuperStorage/Supporting Files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
