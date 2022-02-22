@@ -40,6 +40,7 @@ struct FileDetails: View {
   let downloadSingleAction: () -> Void
   let downloadWithUpdatesAction: () -> Void
   let downloadMultipleAction: () -> Void
+	
   var body: some View {
     Section(content: {
       VStack(alignment: .leading) {
@@ -51,10 +52,12 @@ struct FileDetails: View {
             .font(.title3)
         }
         .padding(.leading, 8)
+				
         Text(sizeFormatter.string(fromByteCount: Int64(file.size)))
           .font(.body)
           .foregroundColor(Color.indigo)
           .padding(.leading, 8)
+				
         if !isDownloading {
           HStack {
             Button(action: downloadSingleAction) {
@@ -62,11 +65,13 @@ struct FileDetails: View {
               Text("Silver")
             }
             .tint(Color.teal)
+						
             Button(action: downloadWithUpdatesAction) {
               Image(systemName: "arrow.down.app.fill")
               Text("Gold")
             }
             .tint(Color.pink)
+						
             Button(action: downloadMultipleAction) {
               Image(systemName: "dial.max.fill")
               Text("Cloud 9")
