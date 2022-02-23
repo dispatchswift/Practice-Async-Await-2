@@ -4,7 +4,7 @@ import SwiftUI
 struct SuperStorageApp: App {
 	var body: some Scene {
 		WindowGroup {
-			ListView(model: SuperStorageModel())
+			ListView(model: SSViewModel())
 		}
 	}
 }

@@ -33,9 +33,11 @@
 import Foundation
 
 /// The download model.
-class SuperStorageModel: ObservableObject {
+class SSViewModel: ObservableObject {
   /// The list of currently running downloads.
   @Published var downloads: [DownloadInfo] = []
+	
+	@TaskLocal static var supportsPartialDownloads = false
 
   /// Downloads a file and returns its content.
   func download(file: DownloadFile) async throws -> Data {
@@ -60,12 +62,60 @@ class SuperStorageModel: ObservableObject {
   }
 
   /// Downloads a file, returns its data, and updates the download progress in ``downloads``.
-  private func downloadWithProgress(fileName: String, name: String, size: Int, offset: Int? = nil) async throws -> Data {
+  private func downloadWithProgress(fileName: String,
+																		name: String,
+																		size: Int,
+																		offset: Int? = nil) async throws -> Data {
     guard let url = URL(string: "http://localhost:8080/files/download?\(fileName)") else {
       throw "Could not create the URL."
     }
     await addDownload(name: name)
-    return Data()
+		
+		let result: (downloadStream: URLSession.AsyncBytes, response: URLResponse)
+		
+		if let offset = offset {
+			let urlRequest = URLRequest(url: url, offset: offset, length: size)
+			result = try await URLSession.shared.bytes(for: urlRequest, delegate: nil)
+			
+			// Check if the response code is 206, indicating a successful partial response.
+			guard (result.response as? HTTPURLResponse)?.statusCode == 206 else {
+				throw "The server responded with an error."
+			}
+		} else {
+			result = try await URLSession.shared.bytes(from: url, delegate: nil)
+			
+			guard (result.response as? HTTPURLResponse)?.statusCode == 200 else {
+				throw "The server responded with an error."
+			}
+		}
+		
+		var asyncDownloadIterator = result.downloadStream.makeAsyncIterator()
+		let accumulator = ByteAccumulator(name: name, size: size)
+		
+		while !stopDownloads, !accumulator.checkCompleted() {
+			while !accumulator.isBatchCompleted,
+				let byte = try await asyncDownloadIterator.next() {
+				accumulator.append(byte)
+			}
+			
+			// Update file progress at the end of each batch.
+			Task.detached(priority: .medium) { [weak self] in
+				await self?.updateDownload(name: name, progress: accumulator.progress)
+			}
+			
+			print(accumulator.description)
+		}
+
+		// This is the task-specific behavior for your custom cancellation. After each download batch,
+		// you check if stopDownloads is true and, if so, also check whether the download supports partial view.
+		// Then:
+		// If Self.supportsPartialDownloads is false, you throw a CancellationEror to exit the function with an error.
+		// If Self.supportsPartialDownloads is true, you continue the execution and return the partially downloaded file content.
+		if stopDownloads, !Self.supportsPartialDownloads {
+			throw CancellationError()
+		}
+		
+		return accumulator.data
   }
 
   /// Downloads a file using multiple concurrent connections, returns the final content, and updates the download progress.
@@ -77,10 +127,17 @@ class SuperStorageModel: ObservableObject {
       let partName = "\(file.name) (part \(index + 1))"
       return (offset: partOffset, size: partSize, name: partName)
     }
+		
     let total = 4
     let parts = (0..<total).map { partInfo(index: $0, of: total) }
-    // Add challenge code here.
-    return Data()
+    
+		// Add challenge code here.
+		async let part1 = downloadWithProgress(fileName: file.name, name: parts[0].name, size: parts[0].size, offset: parts[0].offset)
+		async let part2 = downloadWithProgress(fileName: file.name, name: parts[1].name, size: parts[1].size, offset: parts[1].offset)
+		async let part3 = downloadWithProgress(fileName: file.name, name: parts[2].name, size: parts[2].size, offset: parts[2].offset)
+		async let part4 = downloadWithProgress(fileName: file.name, name: parts[3].name, size: parts[3].size, offset: parts[3].offset)
+		
+		return try await [part1, part2, part3, part4].reduce(Data(), +)
   }
 
   /// Flag that stops ongoing downloads.
@@ -124,7 +181,7 @@ class SuperStorageModel: ObservableObject {
 	}
 }
 
-extension SuperStorageModel {
+extension SSViewModel {
   
 	/// Adds a new download.
   @MainActor func addDownload(name: String) {

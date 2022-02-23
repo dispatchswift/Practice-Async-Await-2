@@ -34,7 +34,7 @@ import SwiftUI
 
 /// The main list of available for download files.
 struct ListView: View {
-  let model: SuperStorageModel
+  let model: SSViewModel
   /// The file list.
   @State var files: [DownloadFile] = []
   /// The server status message.

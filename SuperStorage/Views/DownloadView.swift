@@ -37,13 +37,15 @@ struct DownloadView: View {
 	/// The selected file.
 	let file: DownloadFile
 	
-	@EnvironmentObject var model: SuperStorageModel
+	@EnvironmentObject var model: SSViewModel
 	
 	/// The downloaded data.
 	@State var fileData: Data?
 	
 	/// Should display a download activity indicator.
 	@State var isDownloadActive = false
+	
+	@State var downloadTask: Task<Void, Error>?
 	
 	var body: some View {
 		List {
@@ -53,7 +55,7 @@ struct DownloadView: View {
 				isDownloadActive: $isDownloadActive,
 				downloadSingleAction: {
 					// Download a file in a single go.
-					Task {
+					downloadTask = Task {
 						isDownloadActive = true
 						fileData = try await model.download(file: file)
 						isDownloadActive = false
@@ -61,9 +63,31 @@ struct DownloadView: View {
 				},
 				downloadWithUpdatesAction: {
 					// Download a file with UI progress updates.
+					isDownloadActive = true
+					downloadTask = Task {
+						do {
+							try await SSViewModel
+								.$supportsPartialDownloads
+								.withValue(file.name.hasSuffix(".jpeg")) {
+									fileData = try await model.downloadWithProgress(file: file)
+								}
+						} catch {
+							print(error.localizedDescription)
+						}
+						isDownloadActive = false
+					}
 				},
 				downloadMultipleAction: {
-					// Download a file in multiple concurrent parts.
+					// Download a file in multiple concurrent parts with UI progress updates.
+					isDownloadActive = true
+					downloadTask = Task {
+						do {
+							fileData = try await model.multiDownloadWithProgress(file: file)
+						} catch {
+							print(error.localizedDescription)
+						}
+					}
+					isDownloadActive = false
 				}
 			)
 			
@@ -80,12 +104,17 @@ struct DownloadView: View {
 		.animation(.easeOut(duration: 0.33), value: model.downloads)
 		.listStyle(.grouped)
 		.toolbar {
-			Button("Cancel All") { }
+			Button("Cancel All") {
+				Task {
+					model.stopDownloads = true
+				}
+			}
 			.disabled(model.downloads.isEmpty)
 		}
 		.onDisappear {
 			fileData = nil
 			model.reset()
+			downloadTask?.cancel()
 		}
 	}
 }
